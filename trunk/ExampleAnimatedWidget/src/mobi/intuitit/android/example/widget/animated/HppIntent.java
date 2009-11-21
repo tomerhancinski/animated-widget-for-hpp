@@ -10,7 +10,7 @@ public final class HppIntent {
     /**
      * 
      */
-    public static final String PNAME = "mobi.intuitit.android.x.launcher.";
+    public static final String PNAME = "mobi.intuitit.android.hpp.";
 
     /**
      * 
@@ -51,7 +51,6 @@ public final class HppIntent {
      */
     public static final class ACTION {
 
-        public static final String ACTION_KNOCK = PNAME + "ACTION_KNOCK";
         public static final String ACTION_READY = PNAME + "ACTION_READY";
 
         public static final String ACTION_START_FRAME_ANIMATION = PNAME

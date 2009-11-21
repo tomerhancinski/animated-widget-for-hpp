@@ -16,8 +16,6 @@
                 <action
                     android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <action
-                    android:name="mobi.intuitit.android.x.launcher.ACTION_READY" />
-                <action
                     android:name="mobi.intuitit.android.x.launcher.ERROR_FRAME_ANIMATION" />
                 <action
                     android:name="mobi.intuitit.android.x.launcher.ERROR_TWEEN_ANIMATION" />
