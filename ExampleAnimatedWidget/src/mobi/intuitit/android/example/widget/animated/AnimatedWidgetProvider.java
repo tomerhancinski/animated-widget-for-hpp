@@ -33,19 +33,18 @@ import android.widget.RemoteViews;
  */
 public class AnimatedWidgetProvider extends AppWidgetProvider {
 
-    public static final String ACTION_CLICK = AnimatedWidgetProvider.class.getPackage().toString()
-            + ".ACTION_CLICK";
-
-    public static final String EXTRA_APPWIDGET_ID = AnimatedWidgetProvider.class.getPackage()
-            .toString()
-            + ".APPWIDGET_ID";
-    public static final String EXTRA_VIEW_ID = AnimatedWidgetProvider.class.getPackage().toString()
-            + ".VIEW_ID";
-
     static final String TAG = "Animated Widget Example";
+
+    static final String PNAME = AnimatedWidgetProvider.class.getPackage().toString();
+
+    public static final String ACTION_CLICK = PNAME + ".ACTION_CLICK";
+
+    public static final String EXTRA_APPWIDGET_ID = PNAME + ".APPWIDGET_ID";
+    public static final String EXTRA_VIEW_ID = PNAME + ".VIEW_ID";
 
     @Override
     public void onDeleted(Context context, int[] appWidgetIds) {
+        Log.i("=+++", "ondeleted");
         super.onDeleted(context, appWidgetIds);
     }
 
@@ -76,17 +75,25 @@ public class AnimatedWidgetProvider extends AppWidgetProvider {
         } else if (HppIntent.ERROR.ERROR_TWEEN_ANIMATION.equals(action)) {
             Log.e(TAG, "Tween Anim: " + intent.getStringExtra(HppIntent.EXTRA.EXTRA_ERROR_MESSAGE));
         } else if (HppIntent.NOTIFICATION.NOTIFICATION_IN_VIEWPORT.equals(action)) {
-
+            // The screen this widget is installed on comes into the viewport
         } else if (HppIntent.NOTIFICATION.NOTIFICATION_OUT_VIEWPORT.equals(action)) {
-
+            // The screen this widget is installed on goes out of the viewport
         } else
-            super.onReceive(context, intent);
+            super.onReceive(context, intent); // Handle normal widget intent
     }
 
+    /**
+     * 
+     * @param intent
+     */
     private void onAnimStarted(Intent intent) {
 
     }
 
+    /**
+     * 
+     * @param intent
+     */
     private void onAnimStopped(Intent intent) {
 
     }
@@ -98,7 +105,7 @@ public class AnimatedWidgetProvider extends AppWidgetProvider {
 
         // Instead of being put it in xml, the animation is assigned here to
         // show you that it can be dynamically changed. For example, in a
-        // weather widget, cloudy->sunny->rainy can be done by two animations.
+        // weather widget, you may need this to do multiple step weather transition.
         views.setImageViewResource(R.id.anim_view, R.anim.muybridge);
 
         // Tell the widget manager
@@ -110,6 +117,7 @@ public class AnimatedWidgetProvider extends AppWidgetProvider {
             setOnClickListener(context, appWidgetId, views, R.id.btn_shake);
             appWidgetManager.updateAppWidget(appWidgetId, views);
         }
+
     }
 
     /**
@@ -122,7 +130,7 @@ public class AnimatedWidgetProvider extends AppWidgetProvider {
      *            The view listening to click
      */
     void setOnClickListener(Context context, int appWidgetId, RemoteViews views, int viewId) {
-        Intent active = new Intent(context, AnimatedWidgetProvider.class);
+        Intent active = new Intent(context.getApplicationContext(), AnimatedWidgetProvider.class);
 
         active.setAction(ACTION_CLICK);
 
@@ -131,10 +139,10 @@ public class AnimatedWidgetProvider extends AppWidgetProvider {
 
         // This is tricky, be aware that you can only have one set of extras for
         // any given PendingIntent action+data+category+component pair.
-        active.setData(Uri.parse(System.currentTimeMillis() + ""));
+        active.setData(Uri.parse(appWidgetId + ":" + viewId));
 
-        PendingIntent actionPendingIntent = PendingIntent.getBroadcast(context, 0, active,
-                PendingIntent.FLAG_CANCEL_CURRENT);
+        PendingIntent actionPendingIntent = PendingIntent.getBroadcast(
+                context.getApplicationContext(), 0, active, PendingIntent.FLAG_CANCEL_CURRENT);
         views.setOnClickPendingIntent(viewId, actionPendingIntent);
     }
 
@@ -147,7 +155,8 @@ public class AnimatedWidgetProvider extends AppWidgetProvider {
 
         switch (viewId) {
         case R.id.btn_start:
-            // Log.i("===", "");
+            // If the widget is installed on a non-Home++ home, sending out this intent would either
+            // get a error intent back or no response at all
             context.sendBroadcast(new Intent(HppIntent.ACTION.ACTION_START_FRAME_ANIMATION).putExtra(
                     HppIntent.EXTRA.EXTRA_APPWIDGET_ID, appWidgetId)
                     .putExtra(HppIntent.EXTRA.EXTRA_IMAGEVIEW_ID, R.id.anim_view));
