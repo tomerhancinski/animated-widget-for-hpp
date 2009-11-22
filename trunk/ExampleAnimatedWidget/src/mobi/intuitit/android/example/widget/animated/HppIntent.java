@@ -42,6 +42,13 @@ public final class HppIntent {
         public static final String NOTIFICATION_FRAME_ANIMATION_STOPPED = PNAME
                 + "NOTIFICATION_FRAME_ANIMATION_STOPPED";
 
+        public static final String NOTIFICATION_TWEEN_ANIMATION_STARTED = PNAME
+                + "NOTIFICATION_TWEEN_ANIMATION_STARTED";
+        public static final String NOTIFICATION_TWEEN_ANIMATION_REPEATED = PNAME
+                + "NOTIFICATION_TWEEN_ANIMATION_REPEATED";
+        public static final String NOTIFICATION_TWEEN_ANIMATION_ENDED = PNAME
+                + "NOTIFICATION_TWEEN_ANIMATION_ENDED";
+
     }
 
     /**
@@ -60,8 +67,6 @@ public final class HppIntent {
 
         public static final String ACTION_START_TWEEN_ANIMATION = PNAME
                 + "ACTION_START_TWEEN_ANIMATION";
-        public static final String ACTION_STOP_TWEEN_ANIMATION = PNAME
-                + "ACTION_STOP_TWEEN_ANIMATION";
 
     }
 
@@ -88,7 +93,7 @@ public final class HppIntent {
         public static final String EXTRA_IMAGEVIEW_ID = PNAME + "EXTRA_IMAGEVIEW_ID";
         public static final String EXTRA_ANIMATION_ID = PNAME + "EXTRA_ANIMATION_ID";
         public static final String EXTRA_VIEW_ID = PNAME + "EXTRA_VIEW_ID";
-        
+
         public static final String EXTRA_ERROR_MESSAGE = PNAME + "EXTRA_ERROR_MESSAGE";
 
     }
