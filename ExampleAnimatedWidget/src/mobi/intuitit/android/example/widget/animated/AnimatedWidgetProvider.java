@@ -39,12 +39,11 @@ public class AnimatedWidgetProvider extends AppWidgetProvider {
 
     public static final String ACTION_CLICK = PNAME + ".ACTION_CLICK";
 
-    public static final String EXTRA_APPWIDGET_ID = PNAME + ".APPWIDGET_ID";
-    public static final String EXTRA_VIEW_ID = PNAME + ".VIEW_ID";
+    public static final String EXTRA_CLICK_APPWIDGET_ID = PNAME + ".CLICK_APPWIDGET_ID";
+    public static final String EXTRA_CLICK_VIEW_ID = PNAME + ".CLICK_VIEW_ID";
 
     @Override
     public void onDeleted(Context context, int[] appWidgetIds) {
-        Log.i("=+++", "ondeleted");
         super.onDeleted(context, appWidgetIds);
     }
 
@@ -64,12 +63,28 @@ public class AnimatedWidgetProvider extends AppWidgetProvider {
         Log.i(TAG, action + "");
 
         if (ACTION_CLICK.equals(action)) {
-            onClick(context, intent.getIntExtra(EXTRA_APPWIDGET_ID, -1), intent.getIntExtra(
-                    EXTRA_VIEW_ID, -1));
+            onClick(context, intent.getIntExtra(EXTRA_CLICK_APPWIDGET_ID, -1), intent.getIntExtra(
+                    EXTRA_CLICK_VIEW_ID, -1));
+        } else if (HppIntent.NOTIFICATION.NOTIFICATION_TWEEN_ANIMATION_STARTED.equals(action)) {
+            // Get extras out
+            onTweenAnimStart(
+                    intent.getIntExtra(HppIntent.EXTRA.EXTRA_APPWIDGET_ID, -1),
+                    intent.getIntExtra(HppIntent.EXTRA.EXTRA_VIEW_ID, -1), 
+                    intent.getIntExtra(HppIntent.EXTRA.EXTRA_ANIMATION_ID, -1));
+        } else if (HppIntent.NOTIFICATION.NOTIFICATION_TWEEN_ANIMATION_REPEATED.equals(action)) {
+            onTweenAnimRepeat(
+                    intent.getIntExtra(HppIntent.EXTRA.EXTRA_APPWIDGET_ID, -1),
+                    intent.getIntExtra(HppIntent.EXTRA.EXTRA_VIEW_ID, -1), 
+                    intent.getIntExtra(HppIntent.EXTRA.EXTRA_ANIMATION_ID, -1));
+        } else if (HppIntent.NOTIFICATION.NOTIFICATION_TWEEN_ANIMATION_ENDED.equals(action)) {
+            onTweenAnimEnd(
+                    intent.getIntExtra(HppIntent.EXTRA.EXTRA_APPWIDGET_ID, -1),
+                    intent.getIntExtra(HppIntent.EXTRA.EXTRA_VIEW_ID, -1), 
+                    intent.getIntExtra(HppIntent.EXTRA.EXTRA_ANIMATION_ID, -1));
         } else if (HppIntent.NOTIFICATION.NOTIFICATION_FRAME_ANIMATION_STARTED.equals(action)) {
-            onAnimStarted(intent);
+            onFrameAnimStart(intent);
         } else if (HppIntent.NOTIFICATION.NOTIFICATION_FRAME_ANIMATION_STOPPED.equals(action)) {
-            onAnimStopped(intent);
+            onFrameAnimStop(intent);
         } else if (HppIntent.ERROR.ERROR_FRAME_ANIMATION.equals(action)) {
             Log.e(TAG, "Frame Anim: " + intent.getStringExtra(HppIntent.EXTRA.EXTRA_ERROR_MESSAGE));
         } else if (HppIntent.ERROR.ERROR_TWEEN_ANIMATION.equals(action)) {
@@ -86,7 +101,7 @@ public class AnimatedWidgetProvider extends AppWidgetProvider {
      * 
      * @param intent
      */
-    private void onAnimStarted(Intent intent) {
+    private void onFrameAnimStart(Intent intent) {
 
     }
 
@@ -94,7 +109,19 @@ public class AnimatedWidgetProvider extends AppWidgetProvider {
      * 
      * @param intent
      */
-    private void onAnimStopped(Intent intent) {
+    private void onFrameAnimStop(Intent intent) {
+
+    }
+
+    private void onTweenAnimStart(int appWidgetId, int viewId, int animId) {
+
+    }
+
+    private void onTweenAnimRepeat(int appWidgetId, int viewId, int animId) {
+
+    }
+
+    private void onTweenAnimEnd(int appWidgetId, int viewId, int animId) {
 
     }
 
@@ -134,8 +161,8 @@ public class AnimatedWidgetProvider extends AppWidgetProvider {
 
         active.setAction(ACTION_CLICK);
 
-        active.putExtra(EXTRA_APPWIDGET_ID, appWidgetId);
-        active.putExtra(EXTRA_VIEW_ID, viewId);
+        active.putExtra(EXTRA_CLICK_APPWIDGET_ID, appWidgetId);
+        active.putExtra(EXTRA_CLICK_VIEW_ID, viewId);
 
         // This is tricky, be aware that you can only have one set of extras for
         // any given PendingIntent action+data+category+component pair.
