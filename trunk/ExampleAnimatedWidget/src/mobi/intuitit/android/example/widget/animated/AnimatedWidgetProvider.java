@@ -91,6 +91,11 @@ public class AnimatedWidgetProvider extends AppWidgetProvider {
             Log.e(TAG, "Tween Anim: " + intent.getStringExtra(HppIntent.EXTRA.EXTRA_ERROR_MESSAGE));
         } else if (HppIntent.NOTIFICATION.NOTIFICATION_IN_VIEWPORT.equals(action)) {
             // The screen this widget is installed on comes into the viewport
+            // Shake myself
+            context.sendBroadcast(new Intent(HppIntent.ACTION.ACTION_START_TWEEN_ANIMATION)
+                    .putExtra(HppIntent.EXTRA.EXTRA_APPWIDGET_ID, intent.getIntExtra(HppIntent.EXTRA.EXTRA_APPWIDGET_ID, -1))
+                    .putExtra(HppIntent.EXTRA.EXTRA_VIEW_ID, R.id.text_hello)
+                    .putExtra(HppIntent.EXTRA.EXTRA_ANIMATION_ID, R.anim.shake));
         } else if (HppIntent.NOTIFICATION.NOTIFICATION_OUT_VIEWPORT.equals(action)) {
             // The screen this widget is installed on goes out of the viewport
         } else
