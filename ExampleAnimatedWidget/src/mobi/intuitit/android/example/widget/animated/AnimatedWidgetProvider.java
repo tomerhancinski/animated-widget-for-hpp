@@ -16,6 +16,7 @@
 
 package mobi.intuitit.android.example.widget.animated;
 
+import mobi.intuitit.android.x.launcher.side.HppIntent;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
